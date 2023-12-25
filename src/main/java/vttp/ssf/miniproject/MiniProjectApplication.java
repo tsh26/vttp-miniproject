@@ -27,7 +27,7 @@ private BusApiService busApiSvc;
 		List<BusStopCode> codes = busApiSvc.getBusStopCode();
 		System.out.println(">>>>>>>>>> Bus Stop Code: " + codes);
 
-		int busStopCode = 27409;
+		int busStopCode = 16061;
 
         // Get bus arrivals for the specified busStopCode
         List<BusArrival> busArrivals = busApiSvc.getBusStopInfo(busStopCode);

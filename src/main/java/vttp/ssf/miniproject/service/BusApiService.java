@@ -1,6 +1,8 @@
 package vttp.ssf.miniproject.service;
 
 import java.io.StringReader;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,8 +36,8 @@ public class BusApiService {
                     .queryParam("BusStopCode", busStopCode)
                     .toUriString();
 
-            System.out.println("******************** \n Request URL: \n ********************" + url); // Print the request URL for debugging
-
+            System.out.println("******************** \n Request URL: \n ********************" + url); // Print the
+                                                                                                      // request URL for
             // Create a HTTP GET request
             // GET
             // http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=27409
@@ -50,7 +52,7 @@ public class BusApiService {
 
             // Get the response body (JSON data)
             String payload = resp.getBody();
-            System.out.println("******************** \n Response payload: \n ********************" + payload); // Print the response for debugging
+            System.out.println("******************** \n Response payload: \n ********************" + payload); // Print
 
             // Parse the JSON data using JsonReader
             JsonReader reader = Json.createReader(new StringReader(payload));
@@ -76,19 +78,25 @@ public class BusApiService {
             return busArrivals;
 
         } catch (HttpServerErrorException e) {
-            System.err.println("******************** \n API Error Response: \n ********************" + e.getResponseBodyAsString());
+            System.err.println("******************** \n API Error Response: \n ********************"
+                    + e.getResponseBodyAsString());
             throw e;
         }
     }
 
-    private BusArrival createBusArrival(JsonObject service, String busType) {
+    private BusArrival createBusArrival(JsonObject service, String busOrder) {
         String serviceNo = service.getString("ServiceNo");
-        String estimatedArrival = service.getJsonObject(busType).getString("EstimatedArrival");
-        String load = service.getJsonObject(busType).getString("Load");
-        String feature = service.getJsonObject(busType).getString("Feature");
-        String type = service.getJsonObject(busType).getString("Type");
+        String estimatedArrivalString = service.getJsonObject(busOrder).getString("EstimatedArrival");
+        String load = service.getJsonObject(busOrder).getString("Load");
+        String feature = service.getJsonObject(busOrder).getString("Feature");
+        String type = service.getJsonObject(busOrder).getString("Type");
 
-        return new BusArrival(serviceNo, estimatedArrival, load, feature, type);
+        LocalDateTime estimatedArrival = null;
+        if (estimatedArrivalString != null && !estimatedArrivalString.isEmpty()) {
+            estimatedArrival = LocalDateTime.parse(estimatedArrivalString, DateTimeFormatter.ISO_DATE_TIME);
+        }
+
+        return new BusArrival(serviceNo, estimatedArrival, load, feature, type, busOrder);
     }
 
     private List<BusStopCode> codes = null;
@@ -129,7 +137,8 @@ public class BusApiService {
                     .map(j -> j.asJsonObject()) // Maps each JSON object in the stream to a JSON object
                     .map(o -> {
                         // Extract information from the JSON object
-                        int busStopCode = Integer.valueOf(o.getString("BusStopCode"));
+                        String busStopCode = o.getString("BusStopCode");
+                        // int busStopCode = Integer.valueOf(o.getString("BusStopCode"));
                         String roadName = o.getString("RoadName", "No road name");
                         String description = o.getString("Description", "No description");
 
@@ -137,6 +146,8 @@ public class BusApiService {
                     })
                     .toList();
         }
+        // busUserSvc.setBusStopCodes(codes);
+
         return codes;
     }
 

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <!-- Container for displaying bus information -->
+    <div th:if="${busInfo != null}">
+        <h2>Bus Information</h2>
+        <p th:each="arrival : ${busInfo}">
+            Arrival Object: <span th:utext="${arrival}"></span><br>
+            <hr>
+        </p>
+    </div>
+
+
+    <!-- Container for displaying bus information -->
+    <div th:if="${busInfo != null}">
+        <h2>Bus Information</h2>
+        <p th:each="arrival : ${busInfo}">
+            Service No: <span th:text="${arrival.serviceNo}"></span><br>
+            <!-- Estimated Arrival: <span th:text="${arrival.estimatedArrival}"></span><br> -->
+            Load: <span th:text="${arrival.load}"></span><br>
+            Feature: <span th:text="${arrival.feature}"></span><br>
+            Type: <span th:text="${arrival.type}"></span><br>
+            Arrival:
+            <span th:if="${arrival.busOrder == 'NextBus'}">
+                <span th:utext="${arrival.minutesUntilArrival}"></span> minute(s)
+            </span>
+            <span th:if="${arrival.busOrder == 'NextBus2'}">
+                <span th:utext="${arrival.minutesUntilArrival}"></span> minute(s)
+            </span>
+            <span th:if="${arrival.busOrder == 'NextBus3'}">
+                <span th:utext="${arrival.minutesUntilArrival}"></span> minute(s)
+            </span>
+            <hr>
+        </p>
+    </div>
+</body>
+
+</html>
