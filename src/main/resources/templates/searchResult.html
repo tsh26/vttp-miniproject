@@ -7,38 +7,54 @@
 </head>
 <body>
 
-    <!-- Container for displaying bus information -->
+    <!-- Container for displaying bus information obj for debugging purposes
     <div th:if="${busInfo != null}">
         <h2>Bus Information</h2>
         <p th:each="arrival : ${busInfo}">
             Arrival Object: <span th:utext="${arrival}"></span><br>
             <hr>
         </p>
-    </div>
+    </div> -->
 
 
     <!-- Container for displaying bus information -->
     <div th:if="${busInfo != null}">
         <h2>Bus Information</h2>
-        <p th:each="arrival : ${busInfo}">
-            Service No: <span th:text="${arrival.serviceNo}"></span><br>
-            <!-- Estimated Arrival: <span th:text="${arrival.estimatedArrival}"></span><br> -->
-            Load: <span th:text="${arrival.load}"></span><br>
-            Feature: <span th:text="${arrival.feature}"></span><br>
-            Type: <span th:text="${arrival.type}"></span><br>
-            Arrival:
-            <span th:if="${arrival.busOrder == 'NextBus'}">
-                <span th:utext="${arrival.minutesUntilArrival}"></span> minute(s)
-            </span>
-            <span th:if="${arrival.busOrder == 'NextBus2'}">
-                <span th:utext="${arrival.minutesUntilArrival}"></span> minute(s)
-            </span>
-            <span th:if="${arrival.busOrder == 'NextBus3'}">
-                <span th:utext="${arrival.minutesUntilArrival}"></span> minute(s)
-            </span>
-            <hr>
-        </p>
+        <h4>Bus Stop: <span th:text="${busStopCode.busStopCode}"></span></h4>
+        <h4><span th:text="${busStopCode.roadName}"></span>, <span th:text="${busStopCode.description}"></span></h4>
+        <table border ="1">
+            <thead>
+                <tr>
+                    <th>Service No</th>
+                    <th>Load</th>
+                    <th>Feature</th>
+                    <th>Type</th>
+                    <th>Arrival</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="arrival : ${busInfo}">
+                    <td><span th:text="${arrival.serviceNo}"></span></td>
+                    <td><span th:text="${arrival.load}"></span></td>
+                    <td><span th:text="${arrival.feature}"></span></td>
+                    <td><span th:text="${arrival.type}"></span></td>
+                    <td>
+                        <span th:if="${arrival.busOrder == 'NextBus'}">
+                            <span th:utext="${arrival.minutesUntilArrival}"></span> minute(s)
+                        </span>
+                        <span th:if="${arrival.busOrder == 'NextBus2'}">
+                            <span th:utext="${arrival.minutesUntilArrival}"></span> minute(s)
+                        </span>
+                        <span th:if="${arrival.busOrder == 'NextBus3'}">
+                            <span th:utext="${arrival.minutesUntilArrival}"></span> minute(s)
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
     </div>
 </body>
 
 </html>
+
