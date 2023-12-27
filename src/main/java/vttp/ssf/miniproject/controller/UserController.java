@@ -48,7 +48,7 @@ public class UserController {
 
     // what happens when you press search button
     @PostMapping("/searchResult")
-    public ModelAndView searchBusTimings(@Valid BusStopCode busStopCode, BindingResult bindingResult) {
+    public ModelAndView searchBusTimings(@Valid BusStopCode userInput, BindingResult bindingResult) {
         ModelAndView mav = new ModelAndView("search");
         ModelAndView mavValid = new ModelAndView("searchResult");
 
@@ -57,8 +57,16 @@ public class UserController {
         }
 
         // Fetch bus information based on the bus stop code
-        List<BusArrival> busInfo = busApiSvc.getBusStopInfo(Integer.parseInt(busStopCode.getBusStopCode()));
+        List<BusArrival> busInfo = busApiSvc.getBusStopInfo(Integer.parseInt(userInput.getBusStopCode()));
         mavValid.addObject("busInfo", busInfo);
+
+        // Fetch additional information and add it to the ModelAndView
+        BusStopCode additionalInfo = busApiSvc.fetchAdditionalInfo(userInput.getBusStopCode());
+        if (additionalInfo != null) {
+            userInput.setRoadName(additionalInfo.getRoadName());
+            userInput.setDescription(additionalInfo.getDescription());
+            mavValid.addObject("busStopCode", userInput);
+        }
 
         return mavValid;
     }
@@ -69,16 +77,23 @@ public class UserController {
         ModelAndView mav = new ModelAndView("search");
         ModelAndView mavValid = new ModelAndView("bookmark");
 
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return mav;
+        }
+
+        // Fetch additional information and add it to the ModelAndView
+        BusStopCode additionalInfo = busApiSvc.fetchAdditionalInfo(busStopCode.getBusStopCode());
+        if (additionalInfo != null) {
+            busStopCode.setRoadName(additionalInfo.getRoadName());
+            busStopCode.setDescription(additionalInfo.getDescription());
+            mavValid.addObject("busStopCode", busStopCode);
         }
 
         busUserSvc.addBusStop(busStopCode);
         mavValid.addObject("codes", busApiSvc.getBusStopCode());
         mavValid.addObject("busStopBookmark", busUserSvc.getAllBusStops());
-        return mavValid;        
+        return mavValid;
     }
-
 
     @PostMapping("/delete")
     public ModelAndView deleteBusStop(@RequestParam String busStopCode) {

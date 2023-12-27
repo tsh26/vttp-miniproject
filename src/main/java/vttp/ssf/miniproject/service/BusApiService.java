@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.RequestEntity;
@@ -99,6 +100,8 @@ public class BusApiService {
         return new BusArrival(serviceNo, estimatedArrival, load, feature, type, busOrder);
     }
 
+
+    
     private List<BusStopCode> codes = null;
 
     public List<BusStopCode> getBusStopCode() {
@@ -148,7 +151,46 @@ public class BusApiService {
         }
         // busUserSvc.setBusStopCodes(codes);
 
+        System.out.println("Fetched Bus Stop Codes: " + codes);
+
         return codes;
     }
 
+    // method to match API roadName and description to userInput 
+    public BusStopCode fetchAdditionalInfo(String busStopCode) {
+        // Fetch additional information (roadName and description) based on the user's input bus stop code
+        List<BusStopCode> allBusStopCodes = getBusStopCode();
+
+        System.out.println(">>>>>>>>>>> ALL BUS STOP " + allBusStopCodes);
+    
+        // Find the BusStopCode object with the matching busStopCode
+        Optional<BusStopCode> matchingCode = allBusStopCodes.stream()
+                .filter(code -> code.getBusStopCode().equals(busStopCode))
+                .findFirst();
+    
+        // If direct match fails, try matching by converting busStopCode to integer
+        if (matchingCode.isEmpty()) {
+            matchingCode = allBusStopCodes.stream()
+                    .filter(code -> code.getBusStopCode().equals(String.valueOf(busStopCode)))
+                    .findFirst();
+        }
+
+        System.out.println(">>>>>>>>>>>>>>>>>>>>  busStopCode:   "+ busStopCode);
+        System.out.println(">>>>>>>>>>>>>>>>> Matching code:  " + matchingCode);
+    
+
+// >>>>>>>>>>>>>>>>>>>>  busStopCode:   11089
+//>>>>>>>>>>>>>>>>> Matching code:  Optional[BusStopCode(busStopCode=11089, roadName=Queensway, description=Opp Holland Hill Lodge)]
+
+
+
+        // Check if the matching BusStopCode object is found
+        if (matchingCode.isPresent()) {
+            return matchingCode.get();
+        } else {
+            // Handle the case where additional information is not found
+            System.out.println("No additional information found for bus stop code: " + busStopCode);
+            return null;
+        }
+    }
 }
