@@ -21,7 +21,7 @@ import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
 import jakarta.json.JsonValue;
 import vttp.ssf.miniproject.model.BusArrival;
-import vttp.ssf.miniproject.model.BusStopCode;
+import vttp.ssf.miniproject.model.BusStop;
 
 @Service
 public class BusApiService {
@@ -37,11 +37,9 @@ public class BusApiService {
                     .queryParam("BusStopCode", busStopCode)
                     .toUriString();
 
-            System.out.println("******************** \n Request URL: \n ********************" + url); // Print the
-                                                                                                      // request URL for
-            // Create a HTTP GET request
-            // GET
-            // http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=27409
+            System.out.println("\n Request URL: \n" + url); // Print the request to double check
+
+            // Create a HTTP GET request: GET http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=27409
             RequestEntity<Void> req = RequestEntity
                     .get(url)
                     .header("AccountKey", apiKey)
@@ -53,21 +51,20 @@ public class BusApiService {
 
             // Get the response body (JSON data)
             String payload = resp.getBody();
-            System.out.println("******************** \n Response payload: \n ********************" + payload); // Print
+            System.out.println("\n Response payload: \n" + payload); // Print
 
             // Parse the JSON data using JsonReader
             JsonReader reader = Json.createReader(new StringReader(payload));
 
-            // NOTE THAT THE JSON STRUCTURE IS A JSON OBJECT
+            // Note that the json structure is a json object
             JsonObject result = reader.readObject();
             JsonArray services = result.getJsonArray("Services");
 
-            System.out.println("******************** \n JsonArray services: \n ********************" + services);
+            System.out.println("\n JsonArray services: \n " + services);
 
             List<BusArrival> busArrivals = new ArrayList<>();
 
-            // JsonValue is an abstract class, will need to cast it into a concrete
-            // subclass, in this case the JsonObject.
+            // JsonValue is an abstract class, will need to cast it into a concrete subclass, in this case the JsonObject.
             for (JsonValue serviceValue : services) {
                 JsonObject service = (JsonObject) serviceValue;
 
@@ -79,7 +76,7 @@ public class BusApiService {
             return busArrivals;
 
         } catch (HttpServerErrorException e) {
-            System.err.println("******************** \n API Error Response: \n ********************"
+            System.err.println(" \n API Error Response: \n "
                     + e.getResponseBodyAsString());
             throw e;
         }
@@ -100,74 +97,84 @@ public class BusApiService {
         return new BusArrival(serviceNo, estimatedArrival, load, feature, type, busOrder);
     }
 
+    private List<BusStop> codes = null;
+    private static final int PAGE_SIZE = 500;
 
-    
-    private List<BusStopCode> codes = null;
-
-    public List<BusStopCode> getBusStopCode() {
+    public List<BusStop> getBusStopCode() {
         // Check if the Bus Stop Codes have been fetched before
         if (codes == null) {
+            codes = new ArrayList<>();
             // Construct the URL for API request:
             // http://datamall2.mytransport.sg/ltaodataservice/BusStops
 
-            String url = UriComponentsBuilder
-                    .fromUriString("http://datamall2.mytransport.sg/ltaodataservice/BusStops")
-                    .toUriString();
+            int skip = 0;
+            boolean hasNextPage = true;
 
-            // Create an HTTP GET request
-            // GET http://datamall2.mytransport.sg/ltaodataservice/BusStops
-            RequestEntity<Void> req = RequestEntity
-                    .get(url)
-                    .header("AccountKey", apiKey)
-                    .build();
+            while (hasNextPage) {
+                String url = UriComponentsBuilder
+                        .fromUriString("http://datamall2.mytransport.sg/ltaodataservice/BusStops")
+                        .queryParam("$skip", skip)
+                        .toUriString();
 
-            // Use RestTemplate to send the request and receives the response as a string
-            RestTemplate template = new RestTemplate();
-            ResponseEntity<String> resp = template.exchange(req, String.class);
+                // Create an HTTP GET request
+                // GET http://datamall2.mytransport.sg/ltaodataservice/BusStops
+                RequestEntity<Void> req = RequestEntity
+                        .get(url)
+                        .header("AccountKey", apiKey)
+                        .build();
 
-            // Get the response body (JSON data)
-            String payload = resp.getBody();
+                // Use RestTemplate to send the request and receives the response as a string
+                RestTemplate template = new RestTemplate();
+                ResponseEntity<String> resp = template.exchange(req, String.class);
 
-            // Parse the JSON data using JsonReader
-            JsonReader reader = Json.createReader(new StringReader(payload));
+                // Get the response body (JSON data)
+                String payload = resp.getBody();
 
-            // NOTE THAT THE JSON STRUCTURE IS A JSON OBJECT
-            JsonObject result = reader.readObject();
-            JsonArray arr = result.getJsonArray("value");
+                // Parse the JSON data using JsonReader
+                JsonReader reader = Json.createReader(new StringReader(payload));
 
-            // Map each JSON object to a BusStopCode object
-            codes = arr.stream()
-                    .map(j -> j.asJsonObject()) // Maps each JSON object in the stream to a JSON object
-                    .map(o -> {
-                        // Extract information from the JSON object
-                        String busStopCode = o.getString("BusStopCode");
-                        // int busStopCode = Integer.valueOf(o.getString("BusStopCode"));
-                        String roadName = o.getString("RoadName", "No road name");
-                        String description = o.getString("Description", "No description");
+                // Note that the whole structure is a json object
+                JsonObject result = reader.readObject();
+                JsonArray arr = result.getJsonArray("value");
 
-                        return new BusStopCode(busStopCode, roadName, description);
-                    })
-                    .toList();
+                List<BusStop> pageCodes = arr.stream()
+                        .map(j -> j.asJsonObject()) // Maps each JSON object in the stream to a JSON object
+                        .map(o -> {
+                            // Extract information from the JSON object
+                            String busStopCode = o.getString("BusStopCode");
+                            // int busStopCode = Integer.valueOf(o.getString("BusStopCode"));
+                            String roadName = o.getString("RoadName", "No road name");
+                            String description = o.getString("Description", "No description");
+
+                            return new BusStop(busStopCode, roadName, description);
+                        })
+                        .toList();
+
+                codes.addAll(pageCodes);
+
+                hasNextPage = pageCodes.size() == PAGE_SIZE;
+
+                skip += PAGE_SIZE;
+            }
         }
-        // busUserSvc.setBusStopCodes(codes);
 
-        System.out.println("Fetched Bus Stop Codes: " + codes);
+        System.out.println("\n Fetched Bus Stop details: \n" + codes);
 
         return codes;
     }
 
-    // method to match API roadName and description to userInput 
-    public BusStopCode fetchAdditionalInfo(String busStopCode) {
+    // method to match API roadName and description to userInput
+    public BusStop fetchAdditionalInfo(String busStopCode) {
         // Fetch additional information (roadName and description) based on the user's input bus stop code
-        List<BusStopCode> allBusStopCodes = getBusStopCode();
+        List<BusStop> allBusStopCodes = getBusStopCode();
 
-        System.out.println(">>>>>>>>>>> ALL BUS STOP " + allBusStopCodes);
-    
+        System.out.println("\n ALL BUS STOP: \n " + allBusStopCodes);
+
         // Find the BusStopCode object with the matching busStopCode
-        Optional<BusStopCode> matchingCode = allBusStopCodes.stream()
+        Optional<BusStop> matchingCode = allBusStopCodes.stream()
                 .filter(code -> code.getBusStopCode().equals(busStopCode))
                 .findFirst();
-    
+
         // If direct match fails, try matching by converting busStopCode to integer
         if (matchingCode.isEmpty()) {
             matchingCode = allBusStopCodes.stream()
@@ -175,14 +182,8 @@ public class BusApiService {
                     .findFirst();
         }
 
-        System.out.println(">>>>>>>>>>>>>>>>>>>>  busStopCode:   "+ busStopCode);
-        System.out.println(">>>>>>>>>>>>>>>>> Matching code:  " + matchingCode);
-    
-
-// >>>>>>>>>>>>>>>>>>>>  busStopCode:   11089
-//>>>>>>>>>>>>>>>>> Matching code:  Optional[BusStopCode(busStopCode=11089, roadName=Queensway, description=Opp Holland Hill Lodge)]
-
-
+        System.out.println("\n busStopCode: \n" + busStopCode);
+        System.out.println("\n Matching code: \n" + matchingCode);
 
         // Check if the matching BusStopCode object is found
         if (matchingCode.isPresent()) {
