@@ -11,12 +11,12 @@
 
     <h2>Bus Timing search: </h2>
 
-    <form method="POST" th:object="${busStopCode}">
+    <form method="POST" th:object="${busStop}">
         <table>
             <tr>
                 <td><label for="busStopCode">Bus Stop Code: </label></td>
                 <td>
-                    <input type="text" th:field="*{busStopCode}">
+                    <input type="text" id="busStopCode" name="busStopCode" th:field="*{busStopCode}">
                     <span th:if="${#fields.hasErrors('busStopCode')}" th:errors="*{busStopCode}" class="error"></span>
                 </td>
             </tr>
@@ -30,38 +30,6 @@
         </table>
     </form>
 
-    <!-- Container for displaying bus information -->
-    <div th:if="${busInfo != null}">
-        <h2>Bus Information</h2>
-        <p th:each="arrival : ${busInfo}">
-            Arrival Object: <span th:utext="${arrival}"></span><br>
-            <hr>
-        </p>
-    </div>
-
-
-    <!-- Container for displaying bus information -->
-    <div th:if="${busInfo != null}">
-        <h2>Bus Information</h2>
-        <p th:each="arrival : ${busInfo}">
-            Service No: <span th:text="${arrival.serviceNo}"></span><br>
-            <!-- Estimated Arrival: <span th:text="${arrival.estimatedArrival}"></span><br> -->
-            Load: <span th:text="${arrival.load}"></span><br>
-            Feature: <span th:text="${arrival.feature}"></span><br>
-            Type: <span th:text="${arrival.type}"></span><br>
-            Arrival:
-            <span th:if="${arrival.busOrder == 'NextBus'}">
-                <span th:utext="${arrival.minutesUntilArrival}"></span> minute(s)
-            </span>
-            <span th:if="${arrival.busOrder == 'NextBus2'}">
-                <span th:utext="${arrival.minutesUntilArrival}"></span> minute(s)
-            </span>
-            <span th:if="${arrival.busOrder == 'NextBus3'}">
-                <span th:utext="${arrival.minutesUntilArrival}"></span> minute(s)
-            </span>
-            <hr>
-        </p>
-    </div>
 </body>
 
 </html>
