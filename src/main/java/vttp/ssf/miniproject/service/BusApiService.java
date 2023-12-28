@@ -142,7 +142,6 @@ public class BusApiService {
                         .map(o -> {
                             // Extract information from the JSON object
                             String busStopCode = o.getString("BusStopCode");
-                            // int busStopCode = Integer.valueOf(o.getString("BusStopCode"));
                             String roadName = o.getString("RoadName", "No road name");
                             String description = o.getString("Description", "No description");
 
@@ -163,7 +162,7 @@ public class BusApiService {
         return codes;
     }
 
-    // method to match API roadName and description to userInput
+    // Method to match API roadName and description to userInput
     public BusStop fetchAdditionalInfo(String busStopCode) {
         // Fetch additional information (roadName and description) based on the user's input bus stop code
         List<BusStop> allBusStopCodes = getBusStopCode();
