@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BusStopCode {
+public class BusStop {
 
     @Pattern(regexp = "\\d{5}", message = "Enter 5-digit bus stop code.")
     private String busStopCode;
