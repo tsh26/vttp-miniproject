@@ -3,18 +3,13 @@ package vttp.ssf.miniproject.service;
 import java.util.ArrayList;
 import java.util.List;
 
-// import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import vttp.ssf.miniproject.model.BusStop;
-// import vttp.ssf.miniproject.repo.BusRepository;
 
 @Service
 public class BusUserService {
     
-    // @Autowired
-    // private BusRepository busRepo;
-
     List<BusStop> busStopBookmark = new ArrayList<>();
 
     // Adds a BusStop object to the bookmark list.
