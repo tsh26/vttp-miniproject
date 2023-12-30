@@ -20,13 +20,12 @@
                     <span th:if="${#fields.hasErrors('busStopCode')}" th:errors="*{busStopCode}" class="error"></span>
                 </td>
             </tr>
-            <tr>
+
                 <td></td>
                 <td>
                     <button type="submit" formaction="/searchResult">Submit</button>
                     <button type="submit" formaction="/bookmark">Bookmark</button>
                 </td>
-            </tr>
         </table>
     </form>
 
