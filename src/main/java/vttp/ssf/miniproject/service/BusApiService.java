@@ -116,7 +116,7 @@ public class BusApiService {
                         .queryParam("$skip", skip)
                         .toUriString();
 
-                // Create an HTTP GET request
+                // Create HTTP GET request
                 // GET http://datamall2.mytransport.sg/ltaodataservice/BusStops
                 RequestEntity<Void> req = RequestEntity
                         .get(url)
