@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Bus Homepage</title>
+
 </head>
 
 <body>
@@ -18,9 +19,13 @@
                 <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="error"></span>
             </td>
             <td>
-            <button type="submit" formaction="/register">Login</button>
+                <button type="submit" formaction="/register">Login</button>
             </td>
-            
+            <br> OR <br>
+            <td>
+                <a href="/guest"> Continue as guest</a>
+            </td>
+
         </div>
     </form>
 

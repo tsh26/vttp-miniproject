@@ -26,7 +26,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr data-th-each="i: ${busStopBookmark}"> 
+            <tr data-th-each="i: ${busStopBookmark}">
                 <td><span data-th-text="${i.busStopCode}"></span></td>
                 <td><span data-th-text="${i.roadName}"></span></td>
                 <td><span data-th-text="${i.description}"></span></td>
@@ -38,12 +38,12 @@
                 </td>
                 <td>
                     <form th:action="@{/delete}" method="post">
-                        <input type="hidden" name="busStop" th:value="${i.busStopCode}" />
+                        <input type="hidden" name="busStopCode" th:value="${i.busStopCode}" />
                         <button type="submit">Delete</button>
                     </form>
                 </td>
             </tr>
-            
+
         </tbody>
     </table>
 

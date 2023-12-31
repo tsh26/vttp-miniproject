@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
 
     <!-- Container for displaying bus information for debugging
@@ -22,7 +24,7 @@
         <h2>Bus Information</h2>
         <h4>Bus Stop: <span th:text="${busStop.busStopCode}"></span></h4>
         <h4><span th:text="${busStop.roadName}"></span>, <span th:text="${busStop.description}"></span></h4>
-        <table border ="1">
+        <table border="1">
             <thead>
                 <tr>
                     <th>Service No</th>
@@ -52,9 +54,8 @@
                 </tr>
             </tbody>
         </table>
-        
+
     </div>
 </body>
 
 </html>
-
