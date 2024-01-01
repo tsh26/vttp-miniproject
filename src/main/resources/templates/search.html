@@ -5,30 +5,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bus Search</title>
+    <!-- <link rel="stylesheet" href="../static/style.css"> -->
+    <link rel="stylesheet" th:href="@{/style.css}">
 </head>
 
 <body>
 
-    <h2>Bus Timing search: </h2>
+    <div class="container">
 
-    <form method="POST" th:object="${busStop}">
-        <table>
-            <tr>
-                <td><label for="busStopCode">Bus Stop Code: </label></td>
+        <a th:href="@{/}">Back</a>
+        <h2 class = h2>Bus Timing search: </h2>
+
+        <form method="POST" th:object="${busStop}">
+            <table>
+                <tr>
+                    <td><label for="busStopCode">Bus Stop Code: </label></td>
+                    <td>
+                        <input type="text" id="busStopCode" name="busStopCode" th:field="*{busStopCode}">
+                        <span th:if="${#fields.hasErrors('busStopCode')}" th:errors="*{busStopCode}"
+                            class="error"></span>
+                    </td>
+                </tr>
+
+                <td></td>
                 <td>
-                    <input type="text" id="busStopCode" name="busStopCode" th:field="*{busStopCode}">
-                    <span th:if="${#fields.hasErrors('busStopCode')}" th:errors="*{busStopCode}" class="error"></span>
+                    <button type="submit" formaction="/searchResult">Submit</button>
+                    <button type="submit" formaction="/bookmark">Bookmark</button>
+                    <br><br>
+                    <button type="submit" formaction="/retrieveBookmarks">Retrieve Bookmarks</button>
                 </td>
-            </tr>
+            </table>
+        </form>
 
-            <td></td>
-            <td>
-                <button type="submit" formaction="/searchResult">Submit</button>
-                <button type="submit" formaction="/bookmark">Bookmark</button>
-            </td>
-        </table>
-    </form>
-
+    </div>
 </body>
 
 </html>

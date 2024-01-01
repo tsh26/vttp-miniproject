@@ -15,7 +15,9 @@
 
         <!-- Container for displaying bus information -->
         <div th:if="${busInfo != null}">
-            <a th:href="@{/search}">Back</a>
+
+            <a th:href="@{/guest}">Back</a>
+
             <h2 class = h2>Bus Information</h2>
             <h4>Bus Stop: <span th:text="${busStop.busStopCode}"></span></h4>
             <h4><span th:text="${busStop.roadName}"></span>, <span th:text="${busStop.description}"></span></h4>

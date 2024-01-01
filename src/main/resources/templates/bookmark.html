@@ -1,52 +1,57 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bookmark</title>
+    <!-- <link rel="stylesheet" href="../static/style.css"> -->
+    <link rel="stylesheet" th:href="@{/style.css}">
 </head>
 
 <body>
+    <div class="container">
 
-    <h2>Your saved bus stops:</h2>
+        <a th:href="@{/search}">Back</a>
+        <h2 class = h2>Your saved bus stops:</h2>
 
-    <div data-th-if="${#lists.isEmpty(busStopBookmark)}">
-        <h4>Your bookmark list is empty.</h4>
+        <div data-th-if="${#lists.isEmpty(busStopBookmark)}">
+            <h4>Your bookmark list is empty.</h4>
+        </div>
+
+        <div data-th-unless="${#lists.isEmpty(busStopBookmark)}"></div>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Bus Stop Code</th>
+                    <th>Road Name</th>
+                    <th>Description</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-th-each="i: ${busStopBookmark}">
+                    <td><span data-th-text="${i.busStopCode}"></span></td>
+                    <td><span data-th-text="${i.roadName}"></span></td>
+                    <td><span data-th-text="${i.description}"></span></td>
+                    <td>
+                        <form th:action="@{/searchResult}" method="post">
+                            <input type="hidden" name="busStopCode" th:value="${i.busStopCode}" />
+                            <button type="submit">Get info</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form th:action="@{/delete}" method="post">
+                            <input type="hidden" name="busStopCode" th:value="${i.busStopCode}" />
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+
     </div>
-
-    <div data-th-unless="${#lists.isEmpty(busStopBookmark)}"></div>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Bus Stop Code</th>
-                <th>Road Name</th>
-                <th>Description</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr data-th-each="i: ${busStopBookmark}">
-                <td><span data-th-text="${i.busStopCode}"></span></td>
-                <td><span data-th-text="${i.roadName}"></span></td>
-                <td><span data-th-text="${i.description}"></span></td>
-                <td>
-                    <form th:action="@{/searchResult}" method="post">
-                        <input type="hidden" name="busStopCode" th:value="${i.busStopCode}" />
-                        <button type="submit">Get info</button>
-                    </form>
-                </td>
-                <td>
-                    <form th:action="@{/delete}" method="post">
-                        <input type="hidden" name="busStopCode" th:value="${i.busStopCode}" />
-                        <button type="submit">Delete</button>
-                    </form>
-                </td>
-            </tr>
-
-        </tbody>
-    </table>
-
 </body>
 
 </html>

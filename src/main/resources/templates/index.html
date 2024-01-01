@@ -5,30 +5,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bus Homepage</title>
+    <!-- <link rel="stylesheet" href="../static/style.css"> -->
+    <link rel="stylesheet" th:href="@{/style.css}">
 
 </head>
 
 <body>
+    <div class="container">
 
-    <h2>Bus App User Login:</h2>
+        <h2 class = h2>Bus Arrival Information</h2>
 
-    <form method="POST" th:object="${user}">
-        <div>
-            <td>
-                Username: <input type="text" th:field="*{username}">
-                <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="error"></span>
-            </td>
-            <td>
-                <button type="submit" formaction="/register">Login</button>
-            </td>
-            <br> OR <br>
-            <td>
-                <a href="/guest"> Continue as guest</a>
-            </td>
+        <form method="POST" th:object="${user}">
+            <div>
+                <td>
+                    Username: <input type="text" th:field="*{username}">
+                    <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="error"></span>
+                </td>
+                <td>
+                    <button type="submit" formaction="/register">Login</button>
+                </td>
+                <br> OR <br>
+                <td>
+                    <a href="/guest"> Continue as guest</a>
+                </td>
 
-        </div>
-    </form>
+            </div>
+        </form>
 
+    </div>
 </body>
 
 </html>
