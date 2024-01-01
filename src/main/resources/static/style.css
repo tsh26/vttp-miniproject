@@ -1,0 +1,20 @@
+.container {
+    /* background: whitesmoke; */
+    width: 30%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+body{
+    background-image: url('busstop.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.h2 {
+    font-family: Helvetica, Arial, sans-serif;
+}
