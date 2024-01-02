@@ -5,65 +5,152 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bus Information</title>
-    <!-- <link rel="stylesheet" href="../static/style.css"> -->
     <link rel="stylesheet" th:href="@{/style.css}">
-
 </head>
 
 <body>
-    <div class="container">
+    <div class="container-result">
 
         <!-- Container for displaying bus information -->
         <div th:if="${busInfo != null}">
-            <a th:href="@{/search}">Back</a>
-            <h2 class = h2>Bus Information</h2>
-            <h4>Bus Stop: <span th:text="${busStop.busStopCode}"></span></h4>
-            <h4><span th:text="${busStop.roadName}"></span>, <span th:text="${busStop.description}"></span></h4>
-            <table border="1">
-                <thead>
-                    <tr>
-                        <th>Service No</th>
-                        <th>Load</th>
-                        <th>Feature</th>
-                        <th>Type</th>
-                        <th>Arrival</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="arrival : ${busInfo}">
-                        <td><span th:text="${arrival.serviceNo}"></span></td>
-                        <!-- <td><span th:text="${arrival.load}"></span></td> -->
-                        <td>
-                            <span th:if="${arrival.load == 'SEA'}"> Seats Available</span>
-                            <span th:if="${arrival.load == 'SDA'}"> Standing Available</span>
-                            <span th:if="${arrival.load == 'LSD'}"> Limited Standing</span>
-                        </td>
-                        <!-- <td><span th:text="${arrival.feature}"></span></td> -->
-                        <td>
-                            <span th:if="${arrival.feature == 'WAB'}">Wheel-chair accessible</span>
-                            <!-- <span th:if="${arrival.feature == ''}">Not wheel-chair accessible</span> -->
-                        </td>
-                        <!-- <td><span th:text="${arrival.type}"></span></td> -->
-                        <td>
-                            <span th:if="${arrival.type == 'SD'}">Single-deck</span>
-                            <span th:if="${arrival.type == 'DD'}">Double-deck</span>
-                        </td>
-                        <td>
-                            <span th:if="${arrival.busOrder == 'NextBus'}">
-                                <span th:utext="${arrival.minutesUntilArrival}"></span> minute(s)
-                            </span>
-                            <span th:if="${arrival.busOrder == 'NextBus2'}">
-                                <span th:utext="${arrival.minutesUntilArrival}"></span> minute(s)
-                            </span>
-                            <span th:if="${arrival.busOrder == 'NextBus3'}">
-                                <span th:utext="${arrival.minutesUntilArrival}"></span> minute(s)
-                            </span>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
 
+            <a th:href="@{/search}" class="form-label">Back</a>
+            <h2 class=h2>Bus Information</h2>
+            <hr>
+
+            <h4 class="form-label">Bus Stop: <span th:text="${busStop.busStopCode}"></span></h4>
+            <h4 class="form-label"><span th:text="${busStop.roadName}"></span>, <span
+                    th:text="${busStop.description}"></span></h4>
+            <br>
+
+            <div class="tabs">
+                <input type="radio" name="tab" id="tab1" checked>
+                <label for="tab1">Word View</label>
+                <input type="radio" name="tab" id="tab2">
+                <label for="tab2">Image View</label>
+
+                <!-- Tab 1: Word View -->
+                <div class="tab-content" id="tab-content1">
+
+                    <table border="1">
+                        <thead>
+                            <tr>
+                                <th>Service No</th>
+                                <th>Capacity</th>
+                                <th>Type</th>
+                                <th>Wheel-chair accessible?</th>
+                                <th>Arrival (minutes)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="arrival : ${busInfo}">
+
+                                <td><span th:text="${arrival.serviceNo}"></span></td>
+
+                                <!-- <td><span th:text="${arrival.load}"></span></td> -->
+                                <td>
+                                    <span th:if="${arrival.load == 'SEA'}"> Seats Available</span>
+                                    <span th:if="${arrival.load == 'SDA'}"> Standing Available</span>
+                                    <span th:if="${arrival.load == 'LSD'}"> Limited Standing</span>
+                                </td>
+
+                                <!-- <td><span th:text="${arrival.type}"></span></td> -->
+                                <td>
+                                    <span th:if="${arrival.type == 'SD'}">Single-deck</span>
+                                    <span th:if="${arrival.type == 'DD'}">Double-deck</span>
+                                    <span th:if="${arrival.type == 'BD'}">Bendy</span>
+                                </td>
+
+
+                                <!-- <td><span th:text="${arrival.feature}"></span></td> -->
+                                <td>
+                                    <span th:if="${arrival.feature == 'WAB'}">Yes</span>
+                                    <!-- <span th:if="${arrival.feature == ''}">Not wheel-chair accessible</span> -->
+                                </td>
+
+                                <td>
+                                    <span th:if="${arrival.busOrder == 'NextBus'}">
+                                        <span th:utext="${arrival.minutesUntilArrival}"></span>
+                                    </span>
+                                    <span th:if="${arrival.busOrder == 'NextBus2'}">
+                                        <span th:utext="${arrival.minutesUntilArrival}"></span>
+                                    </span>
+                                    <span th:if="${arrival.busOrder == 'NextBus3'}">
+                                        <span th:utext="${arrival.minutesUntilArrival}"></span>
+                                    </span>
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Tab 2: Img View -->
+                <div class="tab-content" id="tab-content2">
+                 
+                    <table border="1">
+                        <thead>
+                            <tr>
+                                <th>Service No</th>
+                                <th>Capacity</th>
+                                <th>Type</th>
+                                <th>Wheel-chair accessible?</th>
+                                <th>Arrival (minutes)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="arrival : ${busInfo}">
+
+                                <td><span th:text="${arrival.serviceNo}"></span></td>
+
+                                <!-- <td><span th:text="${arrival.load}"></span></td> -->
+                                <td>
+                                    <span th:if="${arrival.load == 'SEA'}"><img src="SEA.png" alt=""
+                                            style="width:50px;height:50px;"></span>
+                                    <span th:if="${arrival.load == 'SDA'}"><img src="SDA.png" alt=""
+                                            style="width:50px;height:50px;"></span>
+                                    <span th:if="${arrival.load == 'LSD'}"><img src="LSD.png" alt=""
+                                            style="width:50px;height:50px;"></span>
+                                </td>
+
+                                <!-- <td><span th:text="${arrival.type}"></span></td> -->
+                                <td>
+                                    <span th:if="${arrival.type == 'SD'}"><img src="SD.png" alt=""
+                                            style="width:50px;height:50px;"></span>
+                                    <span th:if="${arrival.type == 'DD'}"><img src="DD.png" alt=""
+                                            style="width:50px;height:50px;"></span>
+                                    <span th:if="${arrival.type == 'BD'}"><img src="BD.png" alt=""
+                                            style="width:50px;height:50px;"></span>
+                                </td>
+
+
+                                <!-- <td><span th:text="${arrival.feature}"></span></td> -->
+                                <td>
+                                    <span th:if="${arrival.feature == 'WAB'}"><img src="WAB.png" alt=""
+                                            style="width:50px;height:50px;"></span>
+                                    <!-- <span th:if="${arrival.feature == ''}">Not wheel-chair accessible</span> -->
+                                </td>
+
+                                <td>
+                                    <span th:if="${arrival.busOrder == 'NextBus'}">
+                                        <span th:utext="${arrival.minutesUntilArrival}"></span>
+                                    </span>
+                                    <span th:if="${arrival.busOrder == 'NextBus2'}">
+                                        <span th:utext="${arrival.minutesUntilArrival}"></span>
+                                    </span>
+                                    <span th:if="${arrival.busOrder == 'NextBus3'}">
+                                        <span th:utext="${arrival.minutesUntilArrival}"></span>
+                                    </span>
+                                </td>
+
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
     </div>
 </body>
 

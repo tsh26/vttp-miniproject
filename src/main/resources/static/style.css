@@ -1,13 +1,4 @@
-.container {
-    /* background: whitesmoke; */
-    width: 30%;
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 10px;
-    border-radius: 4px;
-}
-
-body{
+body {
     background-image: url('busstop.png');
     background-repeat: no-repeat;
     background-position: center;
@@ -15,6 +6,184 @@ body{
     background-size: cover;
 }
 
-.h2 {
+.container {
+    /* background: whitesmoke; */
+    width: 50%;
+    max-width: 300px;
+    margin: 0 auto;
+    padding: 10px;
+    border-radius: 4px;
+    text-align: center;
+}
+
+/* Link Styles */
+.container a {
+    margin-bottom: 10px;
     font-family: Helvetica, Arial, sans-serif;
+    text-align: left;
+}
+
+/* Heading Styles */
+.container h2 {
+    margin-bottom: 20px;
+    font-family: Helvetica, Arial, sans-serif;
+    text-align: center;
+}
+
+/* Label Styles */
+.container label {
+    display: block;
+    margin-bottom: 5px;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+/* Input Styles */
+.container input {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    padding: 7px;
+}
+
+/* Button Styles */
+.container button {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 7px;
+}
+
+.error {
+    color: red;
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    font-size: small;
+}
+
+.body-text {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: small;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 5px;
+    text-align: left;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+/* Styles for search page */
+.container-result {
+    /* background: whitesmoke; */
+    width: 50%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 10px;
+    border-radius: 4px;
+    text-align: center;
+    /* font-family: Helvetica, Arial, sans-serif;
+    font-size:medium */
+}
+
+.container-result h2 {
+    margin-bottom: 20px;
+    font-family: Helvetica, Arial, sans-serif;
+    text-align: center;
+}
+
+.container-result p {
+    font-family: Helvetica, Arial, sans-serif;
+    text-align: center;
+}
+
+/* Styles for Tables */
+table {
+    width: 100%;
+    /* Table will take up 100% of the container width */
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+
+/* Header row background colour */
+thead {
+    background-color: whitesmoke;
+    /* colour: white;  */
+}
+
+/* Table Header Styles */
+thead th {
+    border: 1px solid #ddd;
+    /* Border - header cells */
+    padding: 8px;
+}
+
+/* Table Body Styles */
+tbody td {
+    border: 1px solid #ddd;
+    /* Border - body cells */
+    padding: 8px;
+}
+
+/* Alternate row background colour */
+tbody tr:nth-child(even) {
+    background-color: #f2f2f2c5;
+}
+
+/* Odd colours */
+tbody tr:nth-child(odd) {
+    background-color: whitesmoke;
+}
+
+/* Styles for tabs */
+.tabs {
+    display: inline-block;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.tabs label {
+    padding: 10px;
+    cursor: pointer;
+    background: whitesmoke;
+    border: 1px solid #ddd;
+    border-radius: 4px 4px 0 0;
+}
+
+.tabs label:hover {
+    background: #c3f6cd;
+}
+
+.tabs input {
+    display: none;
+}
+
+.tab-content {
+    display: none;
+    border: 1px solid #ddddddbc;
+    padding: 10px;
+    border-radius: 0 0 4px 4px;
+}
+
+/* Show the selected tab content */
+#tab1:checked~#tab-content1,
+#tab2:checked~#tab-content2 {
+    display: block;
+}
+
+
+/* Button Styles */
+.button {
+    display: inline-block;
+    text-align: right;
+    padding: 7px;
+    border: 1px solid #4CAF50; 
+    border-radius: 4px;
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+    font-size: small;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+.button:hover {
+    background-color: #45a049;
 }

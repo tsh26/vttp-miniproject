@@ -10,10 +10,11 @@
 </head>
 
 <body>
-    <div class="container">
+    <div class="container-result">
 
-        <a th:href="@{/search}">Back</a>
-        <h2 class = h2>Your saved bus stops:</h2>
+        <a th:href="@{/search}" class="form-label">Back</a>
+        <h2 th:if=${username} class = h2><span th:text="${username}"></span>'s Bookmark</h2>
+        <hr>
 
         <div data-th-if="${#lists.isEmpty(busStopBookmark)}">
             <h4>Your bookmark list is empty.</h4>
@@ -27,6 +28,7 @@
                     <th>Road Name</th>
                     <th>Description</th>
                     <th>Action</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>

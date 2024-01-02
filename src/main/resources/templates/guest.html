@@ -11,31 +11,17 @@
 
 <body>
     <div class="container">
-
-        <!-- <button type="submit" formaction ="/">Back</button> -->
-        <a th:href="@{/}">Back</a>
-
-        <h2 class = h2>Bus Timing search: </h2>
-
+        <a th:href="@{/}" class="form-label">Back</a>
+        <h2 class="h2">Bus Arrival Search</h2>
+        <hr>
+        <br>
         <form method="POST" th:object="${busStop}">
-            <table>
-                <tr>
-                    <td><label for="busStopCode">Bus Stop Code: </label></td>
-                    <td>
-                        <input type="text" id="busStopCode" name="busStopCode" th:field="*{busStopCode}">
-                        <span th:if="${#fields.hasErrors('busStopCode')}" th:errors="*{busStopCode}"
-                            class="error"></span>
-                    </td>
-                </tr>
-
-                <td></td>
-                <td>
-                    <button type="submit" formaction="/guestResult">Submit</button>
-                </td>
-            </table>
+            <label for="busStopCode" class="form-label">Bus Stop Code:</label>
+            <span th:if="${#fields.hasErrors('busStopCode')}" th:errors="*{busStopCode}" class="error"></span>
+            <input type="text" id="busStopCode" name="busStopCode" th:field="*{busStopCode}">
+            <br>
+            <button type="submit" formaction="/guestResult">Submit</button>
         </form>
-
-
     </div>
 </body>
 

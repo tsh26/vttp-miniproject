@@ -11,27 +11,39 @@
 </head>
 
 <body>
+    <a th:href="@{/bookmark/api}" class="button">Rest API</a>
     <div class="container">
+        
 
-        <h2 class = h2>Bus Arrival Information</h2>
+        <h2 class=h2>Bus Arrival Application</h2>
+        <hr>
 
         <form method="POST" th:object="${user}">
             <div>
-                <td>
-                    Username: <input type="text" th:field="*{username}">
+                <div>
+                    <!-- <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="error"></span> -->
+                    <br>
+                    <label for="username" class="form-label">Username:</label>
                     <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="error"></span>
-                </td>
-                <td>
+                    <input type="text" th:field="*{username}">
+                </div>
+                <div>
                     <button type="submit" formaction="/register">Login</button>
-                </td>
-                <br> OR <br>
-                <td>
-                    <a href="/guest"> Continue as guest</a>
-                </td>
+                    <br>
+                </div>
+                <br>
 
+                <div class="body-text"> OR </div>
+
+                <br>
+                <div>
+                    <td>
+                        <button type="submit" formaction="/guest" class="guest-button">Continue as guest</button>
+                    </td>
+
+                </div>
             </div>
         </form>
-
     </div>
 </body>
 
