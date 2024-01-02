@@ -1,6 +1,7 @@
 package vttp.ssf.miniproject.model;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 
 import lombok.AllArgsConstructor;
@@ -33,7 +34,7 @@ public class BusArrival {
     // Method to calculate minutes until arrival
     public void calculateMinutesUntilArrival() {
         if (estimatedArrival != null) {
-            LocalDateTime now = LocalDateTime.now();
+            LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Singapore"));
             minutesUntilArrival = ChronoUnit.MINUTES.between(now, estimatedArrival);
         } else {
             minutesUntilArrival = null; // Handle the case when estimatedArrival is null
