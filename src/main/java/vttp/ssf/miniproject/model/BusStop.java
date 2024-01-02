@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class BusStop {
 
-    @Pattern(regexp = "\\d{5}", message = "Enter 5-digit bus stop code.")
+    @Pattern(regexp = "\\d{5}", message = "Enter a 5-digit bus stop code.")
     private String busStopCode;
 
     private String roadName;
