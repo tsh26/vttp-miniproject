@@ -8,7 +8,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import vttp.ssf.miniproject.model.BusArrival;
-import vttp.ssf.miniproject.model.BusStopCode;
+import vttp.ssf.miniproject.model.BusStop;
 import vttp.ssf.miniproject.service.BusApiService;
 
 @SpringBootApplication
@@ -24,21 +24,22 @@ private BusApiService busApiSvc;
 	@Override
 	public void run(String... args) throws Exception {
 		
-		List<BusStopCode> codes = busApiSvc.getBusStopCode();
-		System.out.println(">>>>>>>>>> Bus Stop Code: " + codes);
+		// List<BusStop> codes = busApiSvc.getBusStopCode();
+		// System.out.println("\n Bus Stop Code: \n" + codes);
 
-		int busStopCode = 16061;
+		// int busStopCode = 01012;
 
-        // Get bus arrivals for the specified busStopCode
-        List<BusArrival> busArrivals = busApiSvc.getBusStopInfo(busStopCode);
+        // // Get bus arrivals for the specified busStopCode
+        // List<BusArrival> busArrivals = busApiSvc.getBusStopInfo(busStopCode);
 
-        // Print the contents of busArrivals
-        System.out.println("******************** \n Bus Arrivals for Bus Stop Code " + busStopCode + ": \n ********************");
+        // // Print the contents of busArrivals
+        // System.out.println("\n Bus Arrivals for Bus Stop Code " + busStopCode + ": \n");
 
-		// System.out.println(busArrivals);
+		// // System.out.println(busArrivals);
 
-        for (BusArrival busArrival : busArrivals) {
-            System.out.println(busArrival);
-        }
+        // for (BusArrival busArrival : busArrivals) {
+        //     System.out.println(busArrival);
+        // }
+
     }
 }
