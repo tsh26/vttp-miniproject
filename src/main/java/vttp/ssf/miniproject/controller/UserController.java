@@ -62,6 +62,15 @@ public class UserController {
         return mav;
     }
 
+    @PostMapping("/guest")
+    public ModelAndView GuestHomepage() {
+        ModelAndView mav = new ModelAndView("guest");
+        mav.addObject("code", busApiSvc.getBusStopCode());
+        mav.addObject("busStop", new BusStop());
+
+        return mav;
+    }
+
     @PostMapping("/guestResult")
     public ModelAndView searchGuestResult(@Valid BusStop busStop, BindingResult bindingResult) {
         ModelAndView mav = new ModelAndView("guest");
@@ -88,19 +97,30 @@ public class UserController {
     }
 
     @GetMapping("/search")
-    public ModelAndView getHomepage() {
+    public ModelAndView getHomepage(HttpSession sess) {
         ModelAndView mav = new ModelAndView("search");
+        User user = (User) sess.getAttribute("user");
+
         mav.addObject("code", busApiSvc.getBusStopCode());
         mav.addObject("busStop", new BusStop());
+
+        if (user != null) {
+            mav.addObject("username", user.getUsername());
+        }
 
         return mav;
     }
 
     @PostMapping("/searchResult")
-    public ModelAndView searchBusTimings(@Valid BusStop busStop, BindingResult bindingResult) {
+    public ModelAndView searchBusTimings(@Valid BusStop busStop, BindingResult bindingResult, HttpSession sess) {
         ModelAndView mav = new ModelAndView("search");
         ModelAndView mavValid = new ModelAndView("searchResult");
+        User user = (User) sess.getAttribute("user");
         mav.addObject("busStop", busStop);
+
+        if (user != null) {
+            mav.addObject("username", user.getUsername());
+        }
 
         if (bindingResult.hasErrors()) {
             return mav;
@@ -118,6 +138,10 @@ public class UserController {
             mavValid.addObject("busStop", busStop);
         }
 
+        if (user != null) {
+            mavValid.addObject("username", user.getUsername());
+        }
+
         return mavValid;
     }
 
@@ -126,6 +150,11 @@ public class UserController {
         ModelAndView mav = new ModelAndView("search");
         ModelAndView mavValid = new ModelAndView("bookmark");
         mav.addObject("busStop", busStop);
+        User user = (User) sess.getAttribute("user");
+
+        if (user != null) {
+            mav.addObject("username", user.getUsername());
+        }
 
         if (bindingResult.hasErrors()) {
             return mav;
@@ -139,22 +168,28 @@ public class UserController {
             mavValid.addObject("busStop", busStop);
         }
 
-        // Get the user from the session
-        User user = (User) sess.getAttribute("user");
-
         busUserSvc.addBusStop(user.getUsername(), busStop);
         mavValid.addObject("codes", busApiSvc.getBusStopCode());
         mavValid.addObject("busStopBookmark", busUserSvc.getAllBusStops(user.getUsername()));
+
+       if (user != null) {
+            mavValid.addObject("username", user.getUsername());
+        }
+
         return mavValid;
     }
 
     @PostMapping("/retrieveBookmarks")
     public ModelAndView retrieveBookmarks(@ModelAttribute("busStop") BusStop busStop, HttpSession sess) {
         ModelAndView mav = new ModelAndView("bookmark");
-
         User user = (User) sess.getAttribute("user");
+
         mav.addObject("codes", busApiSvc.getBusStopCode());
         mav.addObject("busStopBookmark", busUserSvc.getAllBusStops(user.getUsername()));
+
+        if (user != null) {
+            mav.addObject("username", user.getUsername());
+        }
 
         return mav;
     }
@@ -162,13 +197,22 @@ public class UserController {
     @PostMapping("/delete")
     public ModelAndView deleteBusStop(@RequestParam String busStopCode, HttpSession sess) {
         ModelAndView mav = new ModelAndView("bookmark");
-
-        // Get the user from the session
         User user = (User) sess.getAttribute("user");
 
         busUserSvc.removeBusStop(user.getUsername(), busStopCode);
         mav.addObject("codes", busApiSvc.getBusStopCode());
         mav.addObject("busStopBookmark", busUserSvc.getAllBusStops(user.getUsername()));
+
+        if (user != null) {
+            mav.addObject("username", user.getUsername());
+        }
+
+        return mav;
+    }
+
+    @GetMapping("/bookmark/api")
+    public ModelAndView getAPI() {
+        ModelAndView mav = new ModelAndView("restAPI");
         return mav;
     }
 }
