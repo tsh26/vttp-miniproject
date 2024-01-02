@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rest API Documentation</title>
+    <!-- <link rel="stylesheet" href="../static/style.css"> -->
+    <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+    <div class="container-result">
+        <a th:href="@{/}" class="form-label">Back</a>
+        <h2>REST API</h2>
+        <hr>
+
+        <p>            
+            Replace <mark>{username}</mark> with your own username in the link below to retrieve your saved bus stop in a JSON format.
+            
+            <br><br>
+
+            Link: https://bustiming-production.up.railway.app/api/user/<mark>{username}</mark>/bookmarks
+
+            <br><br>
+
+            Example, username: "fred"
+            <br>
+            <a href="https://https://bustiming-production.up.railway.app/api/user/fred/bookmarks">https://bustiming-production.up.railway.app/api/user/<mark>fred</mark>/bookmarks</a>
+        </p>
+
+    </div>
+
+</body>
+</html>
